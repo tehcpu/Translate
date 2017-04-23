@@ -1,26 +1,18 @@
 package ru.tehcpu.translate.ui;
 
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 import ru.tehcpu.translate.R;
-import ru.tehcpu.translate.ui.components.CustomViewPager;
+import ru.tehcpu.translate.ui.component.CustomViewPager;
 import ru.tehcpu.translate.ui.fragment.HistoryFragment;
 import ru.tehcpu.translate.ui.fragment.MainFragment;
 import ru.tehcpu.translate.ui.fragment.SettingsFragment;
@@ -40,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (CustomViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);

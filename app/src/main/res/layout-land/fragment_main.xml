@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
@@ -102,71 +102,80 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:weightSum="1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="5dp">
 
         <LinearLayout
+            android:layout_weight="0.5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/background_field_source"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/sourceFieldWrapper"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:weightSum="1">
 
                 <EditText
                     android:id="@+id/sourceTextArea"
+                    android:imeOptions="flagNoExtractUi"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.9"
                     android:background="@null"
                     android:gravity="top|left"
                     android:inputType="textMultiLine"
-                    android:lines="4"
-                    android:textSize="18sp"
                     android:overScrollMode="always"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
                     android:scrollHorizontally="false"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="18sp" />
 
-                <ImageButton
-                    android:id="@+id/buttonSpeakNow"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/background_button"
-                    app:srcCompat="@drawable/ic_mic_off"
-                    android:tint="@color/buttonImages" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/buttonSpeakNow"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/background_button"
+                        android:tint="@color/buttonImages"
+                        app:srcCompat="@drawable/ic_mic_off" />
+
+                    <ImageButton
+                        android:id="@+id/buttonCleanSource"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginRight="7dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/background_button"
+                        android:tint="@color/buttonImages"
+                        app:srcCompat="@drawable/ic_close" />
+                </LinearLayout>
             </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/buttonCleanSource"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/background_button"
-                app:srcCompat="@drawable/ic_close"
-                android:tint="@color/buttonImages"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_weight="0.5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -221,7 +230,6 @@ Is it also possible to specify different layouts for different screen sizes? If 
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginRight="7dp"
-                        android:layout_marginTop="2dp"
                         android:background="@drawable/background_button"
                         app:srcCompat="@drawable/ic_history_tab"
                         android:tint="@color/buttonImages" />

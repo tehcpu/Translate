@@ -3,12 +3,21 @@ package ru.tehcpu.translate.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ru.tehcpu.translate.R;
+import ru.tehcpu.translate.TranslateApplication;
+import ru.tehcpu.translate.adapter.HistoryPagerAdapter;
+import ru.tehcpu.translate.ui.MainActivity;
+import ru.tehcpu.translate.ui.fragment.history.HistoryFavourite;
+import ru.tehcpu.translate.ui.fragment.history.HistoryMain;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +43,16 @@ public class HistoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//
+    final ViewPager historyViewPager = (ViewPager) view.findViewById(R.id.historyPager);
+       historyViewPager.setAdapter(new HistoryPagerAdapter(getActivity().getApplication().getApplicationContext(), getFragmentManager()));
+        final TabLayout tabLayout = (TabLayout) view.findViewById(R.id.historyTabs);
+        tabLayout.setupWithViewPager(historyViewPager);
     }
 
     @Override

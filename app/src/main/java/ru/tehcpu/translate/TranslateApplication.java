@@ -5,4 +5,14 @@ package ru.tehcpu.translate;
  */
 
 public class TranslateApplication {
+    private static TranslateApplication instance;
+
+    public TranslateApplication(){
+        super();
+        instance = this;
+    }
+
+    public static TranslateApplication get() {
+        return instance;
+    }
 }
