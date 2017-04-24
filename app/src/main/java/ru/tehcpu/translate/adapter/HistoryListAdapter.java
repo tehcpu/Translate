@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import ru.tehcpu.translate.R;
@@ -20,10 +21,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public LinearLayout mTextView;
-        public ViewHolder(LinearLayout v) {
+        public RelativeLayout itemLayout;
+        public ViewHolder(RelativeLayout v) {
             super(v);
-            mTextView = v;
+            itemLayout = v;
         }
     }
 
@@ -37,7 +38,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public HistoryListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         // create a new view
-        LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext())
+        RelativeLayout v = (RelativeLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_history, parent, false);
         // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
@@ -49,7 +50,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        TextView sourceText = (TextView) holder.mTextView.findViewWithTag("text");
+        TextView sourceText = (TextView) holder.itemLayout.findViewWithTag("source");
         sourceText.setText(mDataset[position]);
 
     }

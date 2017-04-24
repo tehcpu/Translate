@@ -1,18 +1,51 @@
 package ru.tehcpu.translate;
 
+import android.app.Application;
+import android.content.Context;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.raizlabs.android.dbflow.config.FlowManager;
+
+import java.util.AbstractList;
+
+import ru.tehcpu.translate.ui.MainActivity;
+
 /**
  * Created by tehcpu on 4/2/17.
  */
 
-public class TranslateApplication {
-    private static TranslateApplication instance;
+public class TranslateApplication extends Application {
+    private RequestQueue queue;
+    private static TranslateApplication Instance;
 
     public TranslateApplication(){
         super();
-        instance = this;
+        Instance = this;
     }
 
     public static TranslateApplication get() {
-        return instance;
+        return Instance;
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        FlowManager.init(this);
+    }
+
+    public RequestQueue getRequestQueue() {
+        if (queue == null) {
+            queue = Volley.newRequestQueue(getApplicationContext());
+        }
+        return queue;
+    }
+
+
+    public void pushRequest(JsonObjectRequest request) {
+        getRequestQueue().add(request);
+    }
+
+    //
 }

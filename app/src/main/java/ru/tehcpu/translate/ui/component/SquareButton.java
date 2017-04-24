@@ -3,7 +3,7 @@ package ru.tehcpu.translate.ui.component;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import ru.tehcpu.translate.ui.Utils;
+import ru.tehcpu.translate.core.Utils;
 
 /**
  * Created by tehcpu on 4/23/17.

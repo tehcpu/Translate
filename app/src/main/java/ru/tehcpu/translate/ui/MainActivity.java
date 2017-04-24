@@ -11,7 +11,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.HashMap;
+
 import ru.tehcpu.translate.R;
+import ru.tehcpu.translate.core.Utils;
+import ru.tehcpu.translate.core.Api;
 import ru.tehcpu.translate.ui.component.CustomViewPager;
 import ru.tehcpu.translate.ui.fragment.HistoryFragment;
 import ru.tehcpu.translate.ui.fragment.MainFragment;
@@ -45,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_settings_tab);
         tabLayout.getTabAt(1).getIcon().setAlpha(100);
         tabLayout.getTabAt(2).getIcon().setAlpha(100);
+
+        HashMap<String, String> params = new HashMap<>();
+        params.put("ui", Utils.getUILanguage());
+        Api.getInstance().request("getLangs", params, null);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}

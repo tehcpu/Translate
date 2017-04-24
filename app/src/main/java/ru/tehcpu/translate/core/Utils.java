@@ -1,9 +1,13 @@
-package ru.tehcpu.translate.ui;
+package ru.tehcpu.translate.core;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.design.widget.TabLayout;
 import android.util.DisplayMetrics;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 import ru.tehcpu.translate.ui.fragment.HistoryFragment;
 import ru.tehcpu.translate.ui.fragment.MainFragment;
@@ -26,5 +30,26 @@ public class Utils {
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static String mapToQueryString(HashMap<String, String> map) {
+        if (map != null) {
+            StringBuilder string = new StringBuilder();
+
+            for (HashMap.Entry<String, String> entry : map.entrySet()) {
+                string.append("&");
+                string.append(entry.getKey());
+                string.append("=");
+                string.append(entry.getValue());
+            }
+
+            return string.toString();
+        } else {
+            return "";
+        }
+    }
+
+    public static String getUILanguage() {
+        return Locale.getDefault().getLanguage();
     }
 }

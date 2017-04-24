@@ -4,11 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import ru.tehcpu.translate.R;
+import ru.tehcpu.translate.adapter.HistoryListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +33,9 @@ public class HistoryMain extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private HistoryListAdapter mAdapter;
 
     public HistoryMain() {
         // Required empty public constructor
@@ -67,6 +73,26 @@ public class HistoryMain extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history_main, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.historyMainList);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        String[] ms = {"123", "123"};
+        mAdapter = new HistoryListAdapter(ms);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

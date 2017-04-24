@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     tools:context="ru.tehcpu.translate.ui.fragment.history.HistoryFavourite">
 
-    <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/historyFavouriteList"
         android:scrollbars="vertical"
