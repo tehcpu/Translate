@@ -11,6 +11,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.stetho.Stetho;
+import com.raizlabs.android.dbflow.config.FlowConfig;
+import com.raizlabs.android.dbflow.config.FlowManager;
+
 import java.util.HashMap;
 
 import ru.tehcpu.translate.R;
@@ -49,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_settings_tab);
         tabLayout.getTabAt(1).getIcon().setAlpha(100);
         tabLayout.getTabAt(2).getIcon().setAlpha(100);
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("ui", Utils.getUILanguage());
-        Api.getInstance().request("getLangs", params, null);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}

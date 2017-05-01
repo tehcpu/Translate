@@ -39,6 +39,7 @@
 
             <ru.tehcpu.translate.ui.component.SquareButton
                 style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/buttonFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/ripple"
@@ -81,7 +82,7 @@
             android:gravity="left|center">
 
             <ru.tehcpu.translate.ui.component.SquareButton
-                android:id="@+id/squareButton"
+                android:id="@+id/buttonTo"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

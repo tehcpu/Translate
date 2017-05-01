@@ -4,6 +4,7 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.annotation.Unique;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import ru.tehcpu.translate.core.Database;
 
@@ -12,7 +13,7 @@ import ru.tehcpu.translate.core.Database;
  */
 
 @Table(database = Database.class)
-public class Language {
+public class Language extends BaseModel {
 
     @PrimaryKey(autoincrement = true)
     long id;
@@ -23,4 +24,27 @@ public class Language {
     @Column
     String title;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

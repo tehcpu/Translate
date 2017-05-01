@@ -6,11 +6,9 @@ import android.content.Context;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.stetho.Stetho;
+import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
-
-import java.util.AbstractList;
-
-import ru.tehcpu.translate.ui.MainActivity;
 
 /**
  * Created by tehcpu on 4/2/17.
@@ -33,6 +31,9 @@ public class TranslateApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FlowManager.init(this);
+
+        // Debug
+        // Stetho.initializeWithDefaults(this);
     }
 
     public RequestQueue getRequestQueue() {
