@@ -27,23 +27,21 @@ public class Translation extends BaseModel {
     String translation;
 
     @Column
-    long direction;
-
-    @Column
-    String fake_direction;
-
-    // Oh SHI~
-
-    public String getFake_direction() {
-        return fake_direction;
-    }
-
-    public void setFake_direction(String fake_direction) {
-        this.fake_direction = fake_direction;
-    }
+    String direction;
 
     @Column(defaultValue = "0")
     int favourite;
+
+    public Translation() {
+    }
+
+    public Translation(long id, String source, String translation, String direction, int favourite) {
+        this.id = id;
+        this.source = source;
+        this.translation = translation;
+        this.direction = direction;
+        this.favourite = favourite;
+    }
 
     public long getId() {
         return id;
@@ -69,11 +67,11 @@ public class Translation extends BaseModel {
         this.translation = translation;
     }
 
-    public long getDirection() {
+    public String getDirection() {
         return direction;
     }
 
-    public void setDirection(long direction) {
+    public void setDirection(String direction) {
         this.direction = direction;
     }
 
@@ -85,15 +83,11 @@ public class Translation extends BaseModel {
         this.favourite = favourite;
     }
 
-    //
+    // For tabs
 
     public ArrayList<Language> getLanguage() {
-        ArrayList<Language> languages = new ArrayList<>();
-        Direction dir = SQLite.select().from(Direction.class).where(Language_Table.id.eq(this.direction)).querySingle();
-        if (dir != null && dir.exists()) {
-            languages.add(SQLite.select().from(Language.class).where(Language_Table.id.eq(dir.from)).querySingle());
-            languages.add(SQLite.select().from(Language.class).where(Language_Table.id.eq(dir.to)).querySingle());
-        }
-        return languages;
+        return (ArrayList<Language>) SQLite.select().from(Language.class)
+                .where(Language_Table.key.eq(this.direction.split("-")[0]))
+                .and(Language_Table.key.eq(this.direction.split("-")[1])).queryList();
     }
 }

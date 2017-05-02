@@ -24,6 +24,14 @@ public class Language extends BaseModel {
     @Column
     String title;
 
+    public Language() {}
+
+    public Language(long id, String key, String title) {
+        this.id = id;
+        this.key = key;
+        this.title = title;
+    }
+
     public long getId() {
         return id;
     }

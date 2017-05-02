@@ -53,50 +53,6 @@ public class MainFragment extends Fragment {
         final SquareButton toButton = (SquareButton) view.findViewById(R.id.buttonTo);
         final EditText sourceText = (EditText) view.findViewById(R.id.sourceTextArea);
         final TextView translatedText = (TextView) view.findViewById(R.id.translatedText);
-
-        Utils.loadLanguages(getActivity(), new Utils.onLanguageCallback() {
-            @Override
-            public void callback(ArrayList<Language> languages, Translation translation) {
-                fromButton.setText(languages.get(0).getTitle());
-                toButton.setText(languages.get(1).getTitle());
-                directionTo = languages.get(1);
-                if (translation != null) {
-                    sourceText.setText(translation.getSource());
-                    translatedText.setText(translation.getTranslation());
-                }
-            }
-        });
-
-        sourceText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Utils.translate(new Utils.onTranslateCallback() {
-                    @Override
-                    public void callback(ArrayList<Language> languages, Translation translation) {
-                        fromButton.setText(languages.get(0).getTitle());
-                        toButton.setText(languages.get(1).getTitle());
-                        translatedText.setText(translation.getTranslation());
-                    }
-                }, sourceText.getText().toString(), (directionTo != null) ? directionTo.getKey() : "ru");
-            }
-        });
-
-        sourceText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_SPACE) {
-                    Utils.translate(new Utils.onTranslateCallback() {
-                        @Override
-                        public void callback(ArrayList<Language> languages, Translation translation) {
-                            fromButton.setText(languages.get(0).getTitle());
-                            toButton.setText(languages.get(1).getTitle());
-                            translatedText.setText(translation.getTranslation());
-                        }
-                    }, sourceText.getText().toString(), directionTo.getKey());
-                }
-                return false;
-            }
-        });
     }
 
     @Override

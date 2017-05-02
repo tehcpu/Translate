@@ -11,15 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.stetho.Stetho;
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
-
-import java.util.HashMap;
-
 import ru.tehcpu.translate.R;
 import ru.tehcpu.translate.core.Utils;
-import ru.tehcpu.translate.core.Api;
 import ru.tehcpu.translate.ui.component.CustomViewPager;
 import ru.tehcpu.translate.ui.fragment.HistoryFragment;
 import ru.tehcpu.translate.ui.fragment.MainFragment;
