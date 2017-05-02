@@ -1,18 +1,7 @@
 package ru.tehcpu.translate;
 
 import android.app.Application;
-import android.util.Log;
-
 import com.raizlabs.android.dbflow.config.FlowManager;
-
-import java.util.ArrayList;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import ru.tehcpu.translate.provider.ApiProvider;
-import ru.tehcpu.translate.model.Language;
-import ru.tehcpu.translate.model.LanguageResponse;
 import ru.tehcpu.translate.provider.DataProvider;
 
 /**
@@ -41,6 +30,6 @@ public class TranslateApplication extends Application {
         DataProvider.get().translate("qweqwe");
 
         // Debug
-        // // Stetho.initializeWithDefaults(this);
+        // Stetho.initializeWithDefaults(this);
     }
 }
