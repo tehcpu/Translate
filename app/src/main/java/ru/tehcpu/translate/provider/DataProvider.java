@@ -1,20 +1,13 @@
 package ru.tehcpu.translate.provider;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQuery;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.ModelAdapter;
 import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
-import com.raizlabs.android.dbflow.structure.database.transaction.Transaction;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -33,7 +26,7 @@ import ru.tehcpu.translate.model.Translation_Table;
  */
 
 public class DataProvider {
-    private static final String TAG = "[ == DataProvider == ]";
+    private static final String TAG = "[ :: DataProvider :: ]";
     private static DataProvider Instance;
     private final ApiProvider.ApiEndpoint apiService;
 
@@ -65,6 +58,7 @@ public class DataProvider {
                             .addAll(languages).build()).build().execute();
                 } else {
                     // TODO: 5/2/17 error handling
+                    //EventBus.getDefault().post(new Events.ShowSnack("Hello everyone!", 0));
                 }
             }
 
@@ -75,24 +69,23 @@ public class DataProvider {
         });
     }
 
-    public void translate(String text) {
-        // TODO: 5/2/17 to code real lang detection
-        String lang = "en-ru";
-
-        text = "Hello world";
-
+    public void translate(String lang, String text, final Translation currentTranslation, final ProviderCallback cb) {
         Call<TranslationResponse> call = apiService.translate(lang, text, ApiProvider.API_KEY);
         final String finalText = text;
         call.enqueue(new Callback<TranslationResponse>() {
             @Override
             public void onResponse(Call<TranslationResponse> call, Response<TranslationResponse> response) {
                 if (response.code() == 200) {
+                    Long id = (currentTranslation != null) ? currentTranslation.getId() : 0L;
                     Translation translation = new Translation();
+                    Log.d("789", id+" qweqwe");
+                    translation.setId(id);
                     translation.setSource(finalText);
                     String result = (response.body().getText().size() > 0)? response.body().getText().get(0): "";
                     translation.setTranslation(result);
                     translation.setDirection(response.body().getLang());
                     translation.save();
+                    cb.success(translation);
                 } else {
                     // TODO: 5/3/17 errors
                 }
@@ -103,6 +96,21 @@ public class DataProvider {
                 Log.d(TAG, t.getMessage());
             }
         });
+    }
+
+    public static Translation getLastTranslation() {
+        Translation translation = SQLite.select().from(Translation.class).limit(1).orderBy(Translation_Table.id, false).querySingle();
+        if (translation == null) {
+            return new Translation(0L, "", "", "ru-en", 0);
+        } else {
+            Log.d(TAG, String.valueOf(translation.getDirection()));
+            return translation;
+        }
+    }
+
+    public interface ProviderCallback {
+        void success(Object result);
+        void error(Object result);
     }
 
     //

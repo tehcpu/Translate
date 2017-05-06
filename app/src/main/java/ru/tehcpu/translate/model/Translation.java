@@ -1,5 +1,7 @@
 package ru.tehcpu.translate.model;
 
+import android.util.Log;
+
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -7,6 +9,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ru.tehcpu.translate.core.Database;
 
@@ -85,9 +88,9 @@ public class Translation extends BaseModel {
 
     // For tabs
 
-    public ArrayList<Language> getLanguage() {
-        return (ArrayList<Language>) SQLite.select().from(Language.class)
+    public List<Language> getLanguage() {
+        return SQLite.select().from(Language.class)
                 .where(Language_Table.key.eq(this.direction.split("-")[0]))
-                .and(Language_Table.key.eq(this.direction.split("-")[1])).queryList();
+                .or(Language_Table.key.eq(this.direction.split("-")[1])).queryList();
     }
 }

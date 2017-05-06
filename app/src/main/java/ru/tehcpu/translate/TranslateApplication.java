@@ -2,6 +2,7 @@ package ru.tehcpu.translate;
 
 import android.app.Application;
 import com.raizlabs.android.dbflow.config.FlowManager;
+
 import ru.tehcpu.translate.provider.DataProvider;
 
 /**
@@ -26,8 +27,8 @@ public class TranslateApplication extends Application {
         FlowManager.init(this);
 
         // testing
-        DataProvider.get().getLangs("ru");
-        DataProvider.get().translate("qweqwe");
+        DataProvider.get().getLangs("en");
+
 
         // Debug
         // Stetho.initializeWithDefaults(this);

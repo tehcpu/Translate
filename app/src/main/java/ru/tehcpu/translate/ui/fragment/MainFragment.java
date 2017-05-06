@@ -1,6 +1,7 @@
 package ru.tehcpu.translate.ui.fragment;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ru.tehcpu.translate.R;
+import ru.tehcpu.translate.binding.MainView;
 import ru.tehcpu.translate.core.Utils;
+import ru.tehcpu.translate.databinding.FragmentMainBinding;
 import ru.tehcpu.translate.model.Language;
 import ru.tehcpu.translate.model.Translation;
 import ru.tehcpu.translate.ui.component.SquareButton;
@@ -30,6 +33,7 @@ public class MainFragment extends Fragment {
     private static MainFragment Instance;
     private String lastTranslatedText = "";
     private Language directionTo;
+    private View view;
 
     public MainFragment() {
         // Required empty public constructor
@@ -44,7 +48,9 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        view = inflater.inflate(R.layout.fragment_main, container, false);
+        FragmentMainBinding.bind(view).setData(new MainView());
+        return view;
     }
 
     @Override

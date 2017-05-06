@@ -1,13 +1,13 @@
 package ru.tehcpu.translate.ui;
 
+import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,46 +19,31 @@ import ru.tehcpu.translate.ui.fragment.MainFragment;
 import ru.tehcpu.translate.ui.fragment.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
-
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (CustomViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
         // Set tab icons
-
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_translate_tab);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_history_tab);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_settings_tab);
-        tabLayout.getTabAt(1).getIcon().setAlpha(100);
-        tabLayout.getTabAt(2).getIcon().setAlpha(100);
+        tuneTabs();
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             public void onPageScrollStateChanged(int state) {}
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            public void onPageSelected(int position) {
-                Utils.invalidateTabs(tabLayout, position);
-            }
+            public void onPageSelected(int position) {Utils.invalidateTabs(tabLayout, position);}
         });
 
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,5 +102,13 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return null;
         }
+    }
+
+    public void tuneTabs() {
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_translate_tab);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_history_tab);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_settings_tab);
+        tabLayout.getTabAt(1).getIcon().setAlpha(100);
+        tabLayout.getTabAt(2).getIcon().setAlpha(100);
     }
 }

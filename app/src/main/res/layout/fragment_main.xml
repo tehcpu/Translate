@@ -1,3 +1,9 @@
+<layout>
+<data>
+<variable
+    name="data"
+    type="ru.tehcpu.translate.binding.MainView" />
+</data>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -45,7 +51,7 @@
                 android:background="@drawable/ripple"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:text="Лолкекчебурек"
+                android:text="@{data.directionFrom}"
                 android:maxLines="1"
                 android:minWidth="1dp"
                 android:padding="5dp"
@@ -90,7 +96,7 @@
                 android:background="@drawable/ripple"
                 android:gravity="center"
                 android:textSize="16sp"
-                android:text="English"
+                android:text="@{data.directionTo}"
                 android:maxLines="1"
                 android:minWidth="1dp"
                 android:padding="5dp"
@@ -135,6 +141,8 @@
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"
                     android:paddingLeft="10dp"
+                    android:text="@{data.source}"
+                    android:onTextChanged="@{data.onTextChanged}"
                     android:paddingTop="5dp"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
@@ -177,6 +185,7 @@
                         android:textSize="18sp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
+                        android:text="@{data.translated}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </ScrollView>
@@ -227,3 +236,4 @@
     </LinearLayout>
 
 </RelativeLayout>
+</layout>
