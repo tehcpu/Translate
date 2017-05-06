@@ -109,32 +109,37 @@ public class MainView extends BaseObservable {
     }
 
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Log.d("333", s.toString());
-        Log.d("444", getTranslation().getSource());
-        Translation current = (String.valueOf(s).substring(0, start).startsWith(getTranslation().getSource().substring(0, start))) ? getTranslation() : null;
-        if (current != null) Log.d("555", current.getId() + " ");
-        if (getTranslation().getSource().length() < String.valueOf(s).length()) {
-            DataProvider.get().translate(getTranslation().getDirection().split("-")[1], s.toString(), current, new DataProvider.ProviderCallback() {
-                @Override
-                public void success(Object result) {
-                    Translation translationObj = (Translation) result;
-                    setTranslation(translationObj);
-                    setDirection(translationObj.getDirection());
-                    setDirectionFrom(translationObj.getLanguage().get(0).getTitle());
-                    setDirectionTo(translationObj.getLanguage().get(1).getTitle());
-                    setTranslated(translationObj.getTranslation());
-                    setFavourite(translationObj.getFavourite());
+//        if (getTranslation().getSource().length() >= count) {
+            Translation current = null;
+            if (String.valueOf(s).length() > 1 && getTranslation().getSource().length() >= count)
+                current =
+                        (String.valueOf(s).substring(0, count)
+                                .startsWith(getTranslation().getSource()
+                                        .substring(0, count))) ? getTranslation() : null;
+            if (getTranslation().getSource().length() < String.valueOf(s).length()) {
+                DataProvider.get().translate(getTranslation().getDirection().split("-")[1], s.toString(), current, new DataProvider.ProviderCallback() {
+                    @Override
+                    public void success(Object result) {
+                        Translation translationObj = (Translation) result;
+                        setTranslation(translationObj);
+                        setDirection(translationObj.getDirection());
+                        setDirectionFrom(translationObj.getLanguage().get(0).getTitle());
+                        setDirectionTo(translationObj.getLanguage().get(1).getTitle());
+                        setTranslated(translationObj.getTranslation());
+                        setFavourite(translationObj.getFavourite());
 
-                    Toast.makeText(TranslateApplication.get().getApplicationContext(), translationObj.getDirection(), Toast.LENGTH_SHORT).show();
-                }
+                        Toast.makeText(TranslateApplication.get().getApplicationContext(), translationObj.getDirection(), Toast.LENGTH_SHORT).show();
+                    }
 
-                @Override
-                public void error(Object result) {
+                    @Override
+                    public void error(Object result) {
 
-                }
-            });
-        } else {
-            getTranslation().setSource(String.valueOf(s));
-        }
+                    }
+                });
+            } else {
+                getTranslation().setSource(String.valueOf(s));
+            }
+            Log.d("123456", String.valueOf(getTranslation().getId()));
+//        }
     }
 }

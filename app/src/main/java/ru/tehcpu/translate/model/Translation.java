@@ -89,8 +89,10 @@ public class Translation extends BaseModel {
     // For tabs
 
     public List<Language> getLanguage() {
-        return SQLite.select().from(Language.class)
+        List<Language> langs = SQLite.select().from(Language.class)
                 .where(Language_Table.key.eq(this.direction.split("-")[0]))
                 .or(Language_Table.key.eq(this.direction.split("-")[1])).queryList();
+        if (langs.size() < 2) langs.add(langs.get(0));
+        return langs;
     }
 }
