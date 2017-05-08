@@ -13,6 +13,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
+    android:focusableInTouchMode="true"
     tools:context="ru.tehcpu.translate.ui.fragment.MainFragment">
 
     <android.support.v7.widget.Toolbar
@@ -154,6 +155,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="2dp"
                 android:layout_marginBottom="2dp"
+                android:onClick="@{data.onClick}"
                 android:background="@drawable/background_button"
                 app:srcCompat="@drawable/ic_close"
                 android:tint="@color/buttonImages"/>

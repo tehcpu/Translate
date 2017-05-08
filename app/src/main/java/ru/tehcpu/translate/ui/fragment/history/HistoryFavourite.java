@@ -6,12 +6,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import ru.tehcpu.translate.R;
 import ru.tehcpu.translate.adapter.HistoryListAdapter;
+import ru.tehcpu.translate.core.Utils;
+import ru.tehcpu.translate.model.Translation;
+import ru.tehcpu.translate.provider.DataProvider;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,7 @@ public class HistoryFavourite extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "[ :: HistoryFav :: ]";
     private static HistoryFavourite Instance;
 
     // TODO: Rename and change types of parameters
@@ -36,6 +43,7 @@ public class HistoryFavourite extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private HistoryListAdapter mAdapter;
+    private List<Translation> data;
 
     public HistoryFavourite() {
         // Required empty public constructor
@@ -91,8 +99,9 @@ public class HistoryFavourite extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        String[] ms = {"qwe", "qwe"};
-        mAdapter = new HistoryListAdapter(ms);
+        data = DataProvider.getHistory(0L, false);
+        mAdapter = new HistoryListAdapter(data);
+        Log.d(TAG, data.size()+" ");
         mRecyclerView.setAdapter(mAdapter);
     }
 

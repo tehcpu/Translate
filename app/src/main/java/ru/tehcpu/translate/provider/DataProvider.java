@@ -9,11 +9,13 @@ import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import ru.tehcpu.translate.core.Database;
+import ru.tehcpu.translate.core.Utils;
 import ru.tehcpu.translate.model.Language;
 import ru.tehcpu.translate.model.LanguageResponse;
 import ru.tehcpu.translate.model.Language_Table;
@@ -69,22 +71,15 @@ public class DataProvider {
         });
     }
 
-    public void translate(String lang, String text, final Translation currentTranslation, final ProviderCallback cb) {
-        Call<TranslationResponse> call = apiService.translate(lang, text, ApiProvider.API_KEY);
-        final String finalText = text;
+    public void translate(final Translation translation, final ProviderCallback cb) {
+        Call<TranslationResponse> call = apiService.translate(translation.getDirection(), translation.getSource(), ApiProvider.API_KEY);
         call.enqueue(new Callback<TranslationResponse>() {
             @Override
             public void onResponse(Call<TranslationResponse> call, Response<TranslationResponse> response) {
                 if (response.code() == 200) {
-                    Long id = (currentTranslation != null) ? currentTranslation.getId() : 0L;
-                    Translation translation = new Translation();
-                    Log.d("789", id+" qweqwe");
-                    translation.setId(id);
-                    translation.setSource(finalText);
                     String result = (response.body().getText().size() > 0)? response.body().getText().get(0): "";
                     translation.setTranslation(result);
                     translation.setDirection(response.body().getLang());
-                    translation.save();
                     cb.success(translation);
                 } else {
                     // TODO: 5/3/17 errors
@@ -101,11 +96,23 @@ public class DataProvider {
     public static Translation getLastTranslation() {
         Translation translation = SQLite.select().from(Translation.class).limit(1).orderBy(Translation_Table.id, false).querySingle();
         if (translation == null) {
-            return new Translation(0L, "", "", "ru-en", 0);
+            return new Translation(0L, "", "", Utils.getDefaultDirection(), 0);
         } else {
             Log.d(TAG, String.valueOf(translation.getDirection()));
             return translation;
         }
+    }
+
+    public static List<Translation> getHistory(Long lastID, boolean favOnly) {
+        List<Translation> translations;
+        Translation lastTranslation = null;
+        if (lastID == 0L) {
+            lastTranslation = getLastTranslation();
+            lastID = lastTranslation.getId();
+        }
+        translations = SQLite.select().from(Translation.class).where(Translation_Table.id.lessThan(lastID)).limit(30).orderBy(Translation_Table.id, false).queryList();
+        if (lastTranslation != null) translations.add(0, lastTranslation);
+        return translations;
     }
 
     public interface ProviderCallback {

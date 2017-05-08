@@ -5,12 +5,17 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener;
+import net.yslibrary.android.keyboardvisibilityevent.Unregistrar;
 
 import java.util.ArrayList;
 
@@ -34,6 +39,8 @@ public class MainFragment extends Fragment {
     private String lastTranslatedText = "";
     private Language directionTo;
     private View view;
+    private FragmentMainBinding binding;
+    private Unregistrar KeyboardWatchdog;
 
     public MainFragment() {
         // Required empty public constructor
@@ -49,7 +56,19 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_main, container, false);
-        FragmentMainBinding.bind(view).setData(new MainView());
+        binding = FragmentMainBinding.bind(view);
+        binding.setData(new MainView());
+        KeyboardWatchdog = KeyboardVisibilityEvent.registerEventListener(
+                getActivity(),
+                new KeyboardVisibilityEventListener() {
+                    @Override
+                    public void onVisibilityChanged(boolean isOpen) {
+                        if (!isOpen) {
+                            binding.sourceTextArea.clearFocus();
+                            binding.getData().saveRequest();
+                        }
+                    }
+                });
         return view;
     }
 
@@ -69,6 +88,12 @@ public class MainFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        KeyboardWatchdog.unregister();
     }
 
     public interface OnFragmentInteractionListener {

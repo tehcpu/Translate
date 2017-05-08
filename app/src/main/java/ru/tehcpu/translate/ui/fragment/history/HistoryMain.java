@@ -90,8 +90,8 @@ public class HistoryMain extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        String[] ms = {"123", "123"};
-        mAdapter = new HistoryListAdapter(ms);
+//        String[] ms = {"123", "123"};
+//        mAdapter = new HistoryListAdapter(ms);
         mRecyclerView.setAdapter(mAdapter);
     }
 
