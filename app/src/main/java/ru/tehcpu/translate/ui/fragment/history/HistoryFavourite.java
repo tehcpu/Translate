@@ -90,10 +90,6 @@ public class HistoryFavourite extends Fragment {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.historyFavouriteList);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
-
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -101,7 +97,6 @@ public class HistoryFavourite extends Fragment {
         // specify an adapter (see also next example)
         data = DataProvider.getHistory(0L, false);
         mAdapter = new HistoryListAdapter(data);
-        Log.d(TAG, data.size()+" ");
         mRecyclerView.setAdapter(mAdapter);
     }
 

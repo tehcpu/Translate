@@ -1,5 +1,6 @@
 package ru.tehcpu.translate.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 
 import ru.tehcpu.translate.R;
 import ru.tehcpu.translate.core.Utils;
+import ru.tehcpu.translate.provider.DataProvider;
 import ru.tehcpu.translate.ui.component.CustomViewPager;
 import ru.tehcpu.translate.ui.fragment.HistoryFragment;
 import ru.tehcpu.translate.ui.fragment.MainFragment;
@@ -28,21 +30,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (CustomViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        DataProvider.initData(new DataProvider.ProviderCallback() {
+            @Override
+            public void success(Object result) {
+                mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+                mViewPager = (CustomViewPager) findViewById(R.id.container);
+                mViewPager.setAdapter(mSectionsPagerAdapter);
+                tabLayout = (TabLayout) findViewById(R.id.tabs);
+                tabLayout.setupWithViewPager(mViewPager);
 
-        // Set tab icons
-        tuneTabs();
+                // Set tab icons
+                tuneTabs();
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            public void onPageScrollStateChanged(int state) {}
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-            public void onPageSelected(int position) {Utils.invalidateTabs(tabLayout, position);}
+                mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    public void onPageScrollStateChanged(int state) {}
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+                    public void onPageSelected(int position) {Utils.invalidateTabs(tabLayout, position);}
+                });
+            }
+
+            @Override
+            public void error(Object result) {
+                Utils.showSnack(getWindow().getDecorView().getRootView());
+            }
         });
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

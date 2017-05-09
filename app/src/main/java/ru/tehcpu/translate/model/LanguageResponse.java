@@ -3,6 +3,9 @@ package ru.tehcpu.translate.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,6 +32,11 @@ public class LanguageResponse {
         for(Map.Entry<String, String> entry : langs.entrySet()) {
             languages.add(new Language(0L, entry.getKey(), entry.getValue()));
         }
+        Collections.sort(languages, new Comparator<Language>() {
+            public int compare(Language l1, Language l2) {
+                return l1.getTitle().compareTo(l2.getTitle());
+            }
+        });
         return languages;
     }
 

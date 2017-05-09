@@ -1,11 +1,14 @@
 package ru.tehcpu.translate;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
 
 import ru.tehcpu.translate.core.Utils;
+import ru.tehcpu.translate.model.Language;
 import ru.tehcpu.translate.provider.DataProvider;
 
 /**
@@ -29,13 +32,7 @@ public class TranslateApplication extends Application {
         super.onCreate();
         FlowManager.init(this);
 
-        // testing
-        DataProvider.get().getLangs("en");
-
-
         // Debug
-        Stetho.initializeWithDefaults(this);
-
-        Utils.getDefaultDirection();
+        // Stetho.initializeWithDefaults(this);
     }
 }

@@ -9,7 +9,10 @@ import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
 import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +39,7 @@ public class DataProvider {
         apiService = ApiProvider.get().create(ApiProvider.ApiEndpoint.class);
     }
 
-    public void getLangs(String ui) {
+    public void getLangs(String ui, final ProviderCallback cb) {
         Call<LanguageResponse> call = apiService.getLang(ui, ApiProvider.API_KEY);
         call.enqueue(new Callback<LanguageResponse>() {
             @Override
@@ -58,6 +61,7 @@ public class DataProvider {
                                 }
                             })
                             .addAll(languages).build()).build().execute();
+                    cb.success(languages);
                 } else {
                     // TODO: 5/2/17 error handling
                     //EventBus.getDefault().post(new Events.ShowSnack("Hello everyone!", 0));
@@ -94,7 +98,8 @@ public class DataProvider {
     }
 
     public static Translation getLastTranslation() {
-        Translation translation = SQLite.select().from(Translation.class).limit(1).orderBy(Translation_Table.id, false).querySingle();
+        Translation translation = SQLite.select().from(Translation.class).limit(1)
+                .orderBy(Translation_Table.id, false).querySingle();
         if (translation == null) {
             return new Translation(0L, "", "", Utils.getDefaultDirection(), 0);
         } else {
@@ -110,9 +115,33 @@ public class DataProvider {
             lastTranslation = getLastTranslation();
             lastID = lastTranslation.getId();
         }
-        translations = SQLite.select().from(Translation.class).where(Translation_Table.id.lessThan(lastID)).limit(30).orderBy(Translation_Table.id, false).queryList();
+        translations = SQLite.select().from(Translation.class)
+                .where(Translation_Table.id.lessThan(lastID)).limit(30)
+                .orderBy(Translation_Table.id, false).queryList();
         if (lastTranslation != null) translations.add(0, lastTranslation);
         return translations;
+    }
+
+    public static List<Language> getLanguages() {
+        return SQLite.select().from(Language.class).queryList();
+    }
+
+    public static List<Language> getRecentLanguages() {
+        List<Translation> recentTranslations = SQLite
+                .select(Translation_Table.direction).from(Translation.class).limit(10).queryList();
+        HashSet<String> dirs = new HashSet<>();
+        for (Translation translation: recentTranslations) {
+            dirs.addAll(Arrays.asList(translation.getDirection().split("-")));
+        }
+        return SQLite.select().from(Language.class).where(Language_Table.key.in(dirs)).queryList();
+    }
+
+    public static void initData(ProviderCallback cb) {
+        if (SQLite.select().from(Language.class).limit(1).queryList().size() == 0) {
+            DataProvider.get().getLangs(Utils.getUILanguage(), cb);
+        } else {
+            cb.success(null);
+        }
     }
 
     public interface ProviderCallback {

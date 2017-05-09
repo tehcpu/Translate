@@ -16,10 +16,8 @@ import ru.tehcpu.translate.model.TranslationResponse;
 
 public class ApiProvider {
     private static Retrofit retrofit;
-    private ApiEndpoint apiService;
-    private static ApiProvider Instance;
 
-    private static final String TAG = "[ == ApiProvider == ]";
+    private static final String TAG = "[ :: ApiProvider :: ]";
     private static final String API_VERSION = "v1.5";
     static final String API_KEY = "trnsl.1.1.20170316T190128Z.adc95438ef4b279b.6481823440c28fd726fe5319dddaa6ed70c74dcb";
     private static final String API_URL = "https://translate.yandex.net/api/"+API_VERSION+"/tr.json/";
