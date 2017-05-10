@@ -61,12 +61,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:tag="flipLanguage"
             android:id="@+id/buttonSwitch"
             android:layout_width="25dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="0.05"
             android:clickable="true"
+            android:onClick="@{data.onClick}"
             android:foreground="?attr/selectableItemBackground">
 
             <LinearLayout

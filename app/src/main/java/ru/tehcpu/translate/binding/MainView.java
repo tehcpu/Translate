@@ -128,7 +128,7 @@ public class MainView extends BaseObservable {
     }
 
     public void saveRequest() {
-        if (getTranslation().getSource().length() > 0 &&
+        if (getTranslation().getSource().length() > 0 && getTranslation().getTranslation().length() > 0 &&
                 !DataProvider.getLastTranslation().getSource().equals(getTranslation().getSource())) {
             getTranslation().save();
 
@@ -138,7 +138,7 @@ public class MainView extends BaseObservable {
         }
     }
 
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getTag().toString()) {
             case "stw":
                 view.findViewById(R.id.sourceTextArea).requestFocus();
@@ -147,6 +147,27 @@ public class MainView extends BaseObservable {
                 InputMethodManager imm = (InputMethodManager) TranslateApplication.get().
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+                break;
+            case "flipLanguage":
+                String[] sourceDir = getTranslation().getDirection().split("-");
+                String dirFrom = getDirectionFrom();
+                String dirTo = getDirectionTo();
+                setDirectionTo(dirFrom);
+                setDirectionFrom(dirTo);
+                Translation tempTranslation = getTranslation();
+                tempTranslation.setDirection(sourceDir[1] + "-" + sourceDir[0]);
+                setTranslation(tempTranslation);
+                DataProvider.get().translate(tempTranslation, new DataProvider.ProviderCallback() {
+                    @Override
+                    public void success(Object result) {
+                        //
+                    }
+
+                    @Override
+                    public void error(Object result) {
+                        Utils.showSnack(view);
+                    }
+                });
                 break;
             default:
                 setSource("");
@@ -165,8 +186,8 @@ public class MainView extends BaseObservable {
                 Translation translationObj = (Translation) result;
                 setTranslation(translationObj);
                 setDirection(translationObj.getDirection());
-                setDirectionFrom(translationObj.getLanguage().get(0).getTitle());
-                setDirectionTo(translationObj.getLanguage().get(1).getTitle());
+                setDirectionFrom(translationObj.getLanguage().get(1).getTitle());
+                setDirectionTo(translationObj.getLanguage().get(0).getTitle());
                 setTranslated(translationObj.getTranslation());
                 setFavourite(0);
             }

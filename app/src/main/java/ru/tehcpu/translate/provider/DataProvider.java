@@ -87,12 +87,14 @@ public class DataProvider {
                     cb.success(translation);
                 } else {
                     // TODO: 5/3/17 errors
+                    cb.error(null);
                 }
             }
 
             @Override
             public void onFailure(Call<TranslationResponse> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
+                cb.error(null);
             }
         });
     }
